@@ -1,0 +1,32 @@
+name: Deploy Simple HTML Page
+
+on:
+  push:
+    branches: ["main"] # Trigger when code is pushed to main branch
+
+permissions:
+  contents: read
+  pages: write         # **CRITICAL:** Yeh permission 404 error theek karegi
+  id-token: write      # **CRITICAL:** Authentication ke liye zaroori
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your code
+        uses: actions/checkout@v4
+        # English: Copies your repository code to the temporary server.
+
+      - name: Setup GitHub Pages Environment
+        uses: actions/configure-pages@v4
+        # English: Configures the hosting environment details.
+
+      - name: Upload website files as an Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # English: Uploads all files from the root folder.
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        # English: Publishes the artifact to your live website URL.
